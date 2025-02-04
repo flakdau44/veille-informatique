@@ -80,7 +80,7 @@ Le script peut être planifié pour s'exécuter automatiquement tous les lundis 
 
 4. Dans l'onglet **Déclencheurs**, ajoutez un déclencheur pour que la tâche s'exécute tous les lundis et vendredis à 10h00.
 
-5. Dans l'onglet **Actions**, ajoutez une action pour exécuter votre script avec Python. Dans **Programme/script**, indiquez le chemin vers l'exécutable Python (par exemple `C:\Users\your_username\AppData\Local\Programs\Python\Python3x\python.exe`), et dans **Ajouter des arguments**, indiquez le chemin vers votre script (par exemple : `C:\chemin\vers\ton\script.py`).
+5. Dans l'onglet **Actions**, ajoutez une action pour exécuter votre script avec Python. Dans **Programme/script**, indiquez le chemin vers l'exécutable Python (par exemple `C:\Users\your_username\AppData\Local\Programs\Python\Python3x\python.exe`), et dans **Ajouter des arguments**, indiquez le chemin vers votre script (par exemple : `C:\chemin\vers\ton\script.py`) sans oublier les guillemets.
 
 6. Enregistrez la tâche.
 
