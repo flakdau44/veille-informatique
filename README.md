@@ -106,6 +106,17 @@ Le script peut être planifié pour s'exécuter automatiquement tous les lundis 
    crontab -l
    ```
 
+## Raccourci sur le bureau
+
+Vous pouvez créer un raccourci sur le bureau afin de pouvoir lancer le script directement en cliquant dessus (pour ne pas avoir à écrire les différentes commandes dans le cmd).
+
+1. Faîtes un clic droit sur votre bureau et dans **Nouveau**, cliquez sur **Raccourci**.
+2. Dans la zone de texte **Entrez l'emplacement de l'élément**, écrivez la commande suivante (dans le cas où votre script soit dans le dossier Documents/PythonProjects) :
+   ```bash
+   cmd.exe /k "cd %USERPROFILE%\Documents\PythonProjects && python veille_informatique.py"
+   ```
+3. Cliquez sur **Suivant**, puis choisissez le nom de votre raccourci (par exemple "veille_informatique"), puis sur **Terminer**.
+
 ## Aide et Dépannage
 
 - Si vous avez des problèmes lors de l'envoi de l'email, assurez-vous que vous avez configuré correctement le mot de passe d'application.
