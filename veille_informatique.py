@@ -2,58 +2,63 @@ import feedparser
 import smtplib
 from email.mime.text import MIMEText
 
-# Liste des flux RSS
-rss_feeds = [
-    "https://www.lemondeinformatique.fr/flux-rss/thematique/reseaux/rss.xml" # Réseau
-    "https://www.lemondeinformatique.fr/flux-rss/thematique/le-monde-du-cloud-computing/rss.xml" # Cloud
-    "https://www.lemondeinformatique.fr/flux-rss/thematique/datacenter/rss.xml" # Datacenter
-    "https://www.lemondeinformatique.fr/flux-rss/thematique/hardware/rss.xml" # Hardware
-    "https://www.lemondeinformatique.fr/flux-rss/thematique/internet/rss.xml" # Internet
-    "https://www.lemondeinformatique.fr/flux-rss/thematique/juridique/rss.xml" # Juridique
-    "https://www.lemondeinformatique.fr/flux-rss/thematique/logiciel/rss.xml" # Software
-    "https://www.lemondeinformatique.fr/flux-rss/thematique/os/rss.xml" # OS
-    "https://www.lemondeinformatique.fr/flux-rss/thematique/poste-de-travail/rss.xml" # Desktop
-    "https://www.lemondeinformatique.fr/flux-rss/thematique/reseaux/rss.xml" # Réseau
-    "https://www.lemondeinformatique.fr/flux-rss/thematique/securite/rss.xml" # Sécurité
-    "https://www.lemondeinformatique.fr/flux-rss/thematique/services-it/rss.xml" # Services IT
-    "https://www.lemondeinformatique.fr/flux-rss/thematique/stockage/rss.xml" # Stockage
-]
+# Dictionnaire des flux RSS avec leur catégorie
+rss_feeds = {
+    "Réseau": "https://www.lemondeinformatique.fr/flux-rss/thematique/reseaux/rss.xml",
+    "Cloud Computing": "https://www.lemondeinformatique.fr/flux-rss/thematique/le-monde-du-cloud-computing/rss.xml",
+    "Datacenter": "https://www.lemondeinformatique.fr/flux-rss/thematique/datacenter/rss.xml",
+    "Hardware": "https://www.lemondeinformatique.fr/flux-rss/thematique/hardware/rss.xml",
+    "Internet": "https://www.lemondeinformatique.fr/flux-rss/thematique/internet/rss.xml",
+    "Juridique": "https://www.lemondeinformatique.fr/flux-rss/thematique/juridique/rss.xml",
+    "Logiciel": "https://www.lemondeinformatique.fr/flux-rss/thematique/logiciel/rss.xml",
+    "OS": "https://www.lemondeinformatique.fr/flux-rss/thematique/os/rss.xml",
+    "Poste de travail": "https://www.lemondeinformatique.fr/flux-rss/thematique/poste-de-travail/rss.xml",
+    "Sécurité": "https://www.lemondeinformatique.fr/flux-rss/thematique/securite/rss.xml",
+    "Services IT": "https://www.lemondeinformatique.fr/flux-rss/thematique/services-it/rss.xml",
+    "Stockage": "https://www.lemondeinformatique.fr/flux-rss/thematique/stockage/rss.xml",
+    "Korben": "https://korben.info/feed",
+    "TechRadar": "https://politepol.com/fd/RXYRAkIMnRWX",
+}
 
 # Fonction pour récupérer les articles récents
 def get_news():
-    news_list = []
+    news_dict = {}  # Dictionnaire pour stocker les articles par catégorie
     
-    for feed in rss_feeds:
-        print(f"🔍 Récupération des articles depuis : {feed}")  # Debugging
+    for category, feed in rss_feeds.items():
+        print(f"🔍 Récupération des articles pour la catégorie : {category}")
 
         try:
             data = feedparser.parse(feed)
 
-            # Afficher le contenu complet du flux pour le débogage
-            print(f"🔹 Contenu du flux récupéré : {data}")
-
             if not data.entries:
-                print(f"⚠️ Aucun article trouvé pour {feed}")
-                continue  # Passe au flux suivant
+                print(f"⚠️ Aucun article trouvé pour {category}")
+                continue  
 
-            for entry in data.entries[:10]:  # Limite à 10 articles par source
-                print(f"✅ Article trouvé : {entry.title}")
-                news_list.append(f"{entry.title}\n{entry.link}\n")
+            # Stocker les articles sous la catégorie correspondante
+            news_dict[category] = [
+                f"- {entry.title}\n  {entry.link}\n" for entry in data.entries[:5]
+            ]
 
         except Exception as e:
             print(f"❌ Erreur lors du chargement du flux {feed} : {e}")
 
-    if not news_list:
+    if not news_dict:
         return "⚠️ Aucune nouvelle actualité disponible pour l’instant."
 
-    return "\n".join(news_list)
+    # Construire le message avec des sections par catégorie
+    formatted_news = "\n\n".join(
+        f"📌 {category}\n" + "\n".join(articles)
+        for category, articles in news_dict.items()
+    )
+
+    return formatted_news
 
 # Fonction pour envoyer un email via Gmail
 def send_email(news):
-    sender = "ton_email@gmail.com"
-    receiver = "ton_email@gmail.com"
+    sender = "lchevet.simplon@gmail.com"
+    receiver = "lchevet.simplon@gmail.com"
     subject = "📢 Alerte IT - Veille Technologique"
-    password = "ton_mdp_application"  # Utilise le mot de passe d'application
+    password = "rjru grmz aqzm swtm"  # Utilise le mot de passe d'application
 
     msg = MIMEText(news, "plain", "utf-8")
     msg["Subject"] = subject
